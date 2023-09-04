@@ -1,6 +1,10 @@
 import { useState } from 'react';
-import FeedbackOptios from './FeedbackOptions/FeedbackOptions';
+import FeedbackOptions from './FeedbackOptions/FeedbackOptions';
 import Statistics from './Statistics/Statistics';
+import { AppSection } from './App.Styled';
+import Section from './Section/Section';
+import Notification from './Notification/Notification';
+import { GlobalStyle } from './GlobalStyled';
 
 // import { useState } from "react";
 export const App = () => {
@@ -23,19 +27,27 @@ export const App = () => {
   const positiveFeedback = Math.round((good / TotalFeedback) * 100);
 
   return (
-    <div>
-      <h1>Please leave your feedback</h1>
-      <FeedbackOptios
-        options={['good', 'neutral', 'bad']}
-        onLeaveFeedback={handleFeedback}
-      />
-      <Statistics
-        good={good}
-        neutral={neutral}
-        bad={bad}
-        total={TotalFeedback}
-        positivePercentage={positiveFeedback}
-      />
-    </div>
+    <AppSection>
+      <Section title="Please leave your feedback">
+        <FeedbackOptions
+          options={['good', 'neutral', 'bad']}
+          onLeaveFeedback={handleFeedback}
+        />
+      </Section>
+      <Section>
+        {TotalFeedback === 0 ? (
+          <Notification message="There is no feedback for this moment" />
+        ) : (
+          <Statistics
+            good={good}
+            neutral={neutral}
+            bad={bad}
+            total={TotalFeedback}
+            positivePercentage={positiveFeedback}
+          />
+        )}
+      </Section>
+      <GlobalStyle />
+    </AppSection>
   );
 };
